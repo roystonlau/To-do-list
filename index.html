@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To do list</title>
     <link rel="stylesheet" href="/src/mystyle.css" />
+    <script src="/src/mycode.js" defer></script>
   </head>
   <body>
     <div id="container">
       <div id="no-task">
-        <img src="/src/image/no-task.PNG" alt="No task" id="no_task_left" />
-        <p id="message">No task yet. Add a task to begin.</p>
+        <img src="/src/image/no-task.png" alt="No task" id="no_task_left" />
+        <p id="message">No task completed yet. Add a task to begin.</p>
       </div>
 
       <div id="heading">
@@ -26,10 +27,12 @@
       <div id="bottom">
         <button id="addtaskButton">Add task</button>
       </div>
-      <div class="completedSection">
+      <div id="completedSection">
         <div></div>
         <div>Completed (<span id="completedTask"></span>)</div>
+        <div id="completedSectionHead">Task Name</div>
       </div>
+      <div id="Completed_list"></div>
     </div>
 
     <!-- The Modal -->
@@ -50,7 +53,5 @@
         </div>
       </div>
     </div>
-
-    <script src="/src/mycode.js"></script>
   </body>
 </html>

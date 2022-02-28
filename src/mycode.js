@@ -1,14 +1,25 @@
+class task {
+  constructor(rowID, taskName, description) {
+    this.rowID = rowID;
+    this.taskName = taskName;
+    this.description = description;
+    this.isCompleted = false;
+  }
+}
+
 let tasklist = document.getElementById("tasklist");
 let heading = document.getElementById("heading");
 let addtaskButton = document.getElementById("addtaskButton");
 let modal = document.getElementById("myModal");
 let notaskmessage = document.getElementById("message");
-let deleteButtonID = 0; //
+let rowID = 0; //
 let completed = 0;
 let id = 0;
 let no_task_image = document.getElementById("no_task_left");
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+let span = document.getElementsByClassName("close")[0];
+// trying to use object and class
+let taskArray = [];
 
 // Adding new row to table for each task
 let addTask = (getTaskValue, getDescriptionValue) => {
@@ -22,6 +33,9 @@ let addTask = (getTaskValue, getDescriptionValue) => {
   let taskDiv = document.createElement("div");
   let desciptionDiv = document.createElement("div");
   let deleteButtonDiv = document.createElement("div");
+  newRowDiv.setAttribute("id", rowID);
+  rowID++;
+
   newRowDiv.append(checkbuttonDiv, taskDiv, desciptionDiv, deleteButtonDiv);
 
   //// adding checkbutton to new row
@@ -29,7 +43,7 @@ let addTask = (getTaskValue, getDescriptionValue) => {
   checkbuttonDiv.classList.add("center");
   checkbuttonDiv.appendChild(checkbutton);
   checkbutton.classList.add("tick");
-  checkbutton.addEventListener("click", expand);
+  checkbutton.addEventListener("click", done);
   //// adding task info to new row
   taskDiv.append(getTaskValue);
   //// adding desciption  to new row
@@ -39,17 +53,13 @@ let addTask = (getTaskValue, getDescriptionValue) => {
   let deleteButton = document.createElement("button");
   checkbuttonDiv.classList.add("center");
   deleteButtonDiv.appendChild(deleteButton);
-
-  deleteButton.innerText = "Delete  ";
   deleteButton.addEventListener("click", deleteTask);
   deleteButton.classList.add("deleteButton");
-  deleteButton.setAttribute("id", deleteButtonID);
-  deleteButtonID++;
 };
 
 let completedBox = document.getElementById("completedTask");
 
-function expand(click) {
+function done(click) {
   click.target.parentElement.parentElement.style.textDecoration =
     "line-through";
   setTimeout(() => {
@@ -65,68 +75,64 @@ function expand(click) {
     click.target.parentElement.parentElement.remove();
     check_all_task_completed();
   }, 3000);
+  let getrowID = parseInt(click.target.parentElement.parentElement.id);
+  taskArray[getrowID].isCompleted = true;
   completed++;
-  notaskmessage.innerText =
-    "Congratulations! You have completed all your tasksno";
+  addCompleted(click);
   completedBox.innerText = completed;
 }
 
-function check_if_empty() {
-  if (document.querySelectorAll(".deleteButton").length === 0) {
-    heading.style.display = "none";
-    no_task.style.display = "block";
-  }
-}
 function check_all_task_completed() {
-  if (document.querySelectorAll(".tick").length === 0) {
+  /*when all tasks is completed, show task completed image
+  when all tasks is deleted but no task completed, show the No task yet image*/
+
+  if (document.querySelectorAll(".tick").length === 0 && completed > 0) {
+    no_task_image.setAttribute("src", "/src/image/alltaskcompleted.png");
     heading.style.display = "none";
     no_task.style.display = "block";
-    no_task_image.setAttribute("src", "/src/image/alltaskcompleted.png");
+    notaskmessage.innerText =
+      "Congratulations! You have completed all your tasks";
+  } else if (
+    document.querySelectorAll(".tick").length === 0 &&
+    completed === 0
+  ) {
+    no_task_image.setAttribute("src", "/src/image/no-task.png");
+    heading.style.display = "none";
+    no_task.style.display = "block";
   }
 }
-//---- modal Section ----//
-
 var btn = document.getElementById("myBtn"); // button for modal
 
+// Modal close button hide modal
 span.onclick = function () {
   // close button
   modal.style.display = "none";
 };
 
+// Show modal and focus on input
 addtaskButton.onclick = function () {
   modal.style.display = "block";
   getTaskValue.focus();
 };
 
-// trying to use object and class
-let taskArray = [];
-let CompletedTaskArray = [];
-let isFresh = true; // turn to false when the first task is added
-
-class task {
-  constructor(deleteButtonID, taskName, description) {
-    this.deleteButtonID = deleteButtonID;
-    this.taskName = taskName;
-    this.description = description;
-  }
-}
-
+// Get value of modal inputs
 let saveButton = document.getElementById("save");
 saveButton.addEventListener("click", addrow);
-
 let getTaskValue = document.getElementById("getTask");
 let getDescriptionValue = document.getElementById("getDescription");
 getTaskValue.addEventListener("keyup", check);
 getTaskValue.addEventListener("keypress", addrow);
 let no_task = document.getElementById("no-task");
+
 function addrow(e) {
+  // Pressing enter or clicking save create new row and save to taskArray
   getTaskValue.focus();
   if (
     (e.key === "Enter" && getTaskValue.value.length !== 0) ||
     e.type === "click"
   ) {
     taskArray[taskArray.length] = new task(
-      deleteButtonID,
+      rowID,
       getTaskValue.value,
       getDescriptionValue.value
     );
@@ -141,19 +147,21 @@ function addrow(e) {
 }
 
 let deleteTask = (click) => {
-  let getID = parseInt(click.target.id);
+  //click on delete button remove row and remove element in array
+  let getID = click.target.parentElement.parentElement.id;
   if (click.target.className === "deleteButton") {
     click.target.parentElement.parentElement.remove();
     taskArray.forEach((element, index) => {
-      if (element.deleteButtonID === getID) {
+      if (element.rowID == getID) {
         taskArray.splice(index, 1);
       }
     });
   }
-  check_if_empty();
+  check_all_task_completed();
 };
 
 function check() {
+  //check if input is blank
   if (getTaskValue.value.length === 0) {
     saveButton.style.color = "rgba(0, 0, 0, 0.2)";
     saveButton.disabled = true;
@@ -162,4 +170,17 @@ function check() {
     saveButton.style.fontWeight = "bold";
     saveButton.disabled = false;
   }
+}
+function addCompleted(click) {
+  let completedList = document.getElementById("Completed_list");
+  let newDiv = document.createElement("div");
+  completedList.appendChild(newDiv);
+
+  let rowIndex = parseInt(click.target.parentElement.parentElement.id);
+  let getTaskValue = taskArray[rowIndex].taskName;
+  let completedtaskText = document.createTextNode(getTaskValue);
+
+  newDiv.appendChild(completedtaskText);
+
+  document.getElementById("completedSection").style.display = "block";
 }
