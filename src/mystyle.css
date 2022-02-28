@@ -74,7 +74,7 @@ h1 {
 }
 
 .tickactive {
-  background-image: url("/src/image/check.PNG");
+  background-image: url("/src/image/check.png");
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -88,7 +88,7 @@ h1 {
 }
 
 .tickactive2 {
-  background-image: url("/src/image/like.PNG");
+  background-image: url("/src/image/like.png");
   width: 20px;
   height: 20px;
   border: none;
