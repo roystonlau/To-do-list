@@ -87,7 +87,7 @@ function check_all_task_completed() {
   when all tasks is deleted but no task completed, show the No task yet image*/
 
   if (document.querySelectorAll(".tick").length === 0 && completed > 0) {
-    no_task_image.setAttribute("src", "/src/image/alltaskcompleted.png");
+    no_task_image.setAttribute("src", "src/image/alltaskcompleted.PNG");
     heading.style.display = "none";
     no_task.style.display = "block";
     notaskmessage.innerText =
@@ -96,7 +96,7 @@ function check_all_task_completed() {
     document.querySelectorAll(".tick").length === 0 &&
     completed === 0
   ) {
-    no_task_image.setAttribute("src", "/src/image/no-task.png");
+    no_task_image.setAttribute("src", "src/image/no-task.PNG");
     heading.style.display = "none";
     no_task.style.display = "block";
   }
