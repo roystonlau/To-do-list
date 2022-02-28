@@ -19,6 +19,6 @@ Initial design
 - delete button remove task in object 
 
 In progress 
-- show the completed tasks in the lower section. The section will expan
+- show the completed tasks in the lower section. - done!
 - -media query 
 - sort the list
