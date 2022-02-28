@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do list</title>
+    <link rel="stylesheet" href="/src/mystyle.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="no-task">
+        <img src="/src/image/no-task.png" alt="No task" id="no_task_left" />
+        <p id="message">No task yet. Add a task to begin.</p>
+      </div>
+
+      <div id="heading">
+        <div></div>
+        <div>Task Name</div>
+        <div>Description</div>
+        <div></div>
+      </div>
+      <div id="tasklist">
+        <!-- new row will appear here -->
+      </div>
+      <div id="bottom">
+        <button id="addtaskButton">Add task</button>
+      </div>
+      <div class="completedSection">
+        <div></div>
+        <div>Completed (<span id="completedTask"></span>)</div>
+      </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="form">
+          <input type="text" id="getTask" placeholder="New task" />
+          <input
+            type="text"
+            id="getDescription"
+            placeholder="Description (optional)"
+          />
+        </div>
+        <div class="containersave">
+          <button id="save">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/src/mycode.js"></script>
+  </body>
+</html>
