@@ -6,7 +6,7 @@ class task {
     this.isCompleted = false;
   }
 }
-
+let completedBox = document.getElementById("completedTask");
 let tasklist = document.getElementById("tasklist");
 let heading = document.getElementById("heading");
 let addtaskButton = document.getElementById("addtaskButton");
@@ -21,13 +21,12 @@ let span = document.getElementsByClassName("close")[0];
 // trying to use object and class
 let taskArray = [];
 
-// Adding new row to table for each task
+//Function for adding new row to table for each task *************************
 let addTask = (getTaskValue, getDescriptionValue) => {
   // add new row
   let newRowDiv = document.createElement("div");
   newRowDiv.classList.add("row");
   let newRow = tasklist.append(newRowDiv);
-
   // add 4 divs into the new row
   let checkbuttonDiv = document.createElement("div");
   let taskDiv = document.createElement("div");
@@ -35,9 +34,7 @@ let addTask = (getTaskValue, getDescriptionValue) => {
   let deleteButtonDiv = document.createElement("div");
   newRowDiv.setAttribute("id", rowID);
   rowID++;
-
   newRowDiv.append(checkbuttonDiv, taskDiv, desciptionDiv, deleteButtonDiv);
-
   //// adding checkbutton to new row
   let checkbutton = document.createElement("button");
   checkbuttonDiv.classList.add("center");
@@ -48,7 +45,6 @@ let addTask = (getTaskValue, getDescriptionValue) => {
   taskDiv.append(getTaskValue);
   //// adding desciption  to new row
   desciptionDiv.append(getDescriptionValue);
-
   //// adding delete button to new row
   let deleteButton = document.createElement("button");
   checkbuttonDiv.classList.add("center");
@@ -56,73 +52,6 @@ let addTask = (getTaskValue, getDescriptionValue) => {
   deleteButton.addEventListener("click", deleteTask);
   deleteButton.classList.add("deleteButton");
 };
-
-let completedBox = document.getElementById("completedTask");
-
-function done(click) {
-  click.target.parentElement.parentElement.style.textDecoration =
-    "line-through";
-  setTimeout(() => {
-    click.target.setAttribute("class", "tickactive");
-  }, 500);
-  setTimeout(() => {
-    click.target.setAttribute("class", "tickactive2");
-  }, 1000);
-  setTimeout(() => {
-    click.target.parentElement.parentElement.setAttribute("id", "rowgone");
-  }, 2000);
-  setTimeout(() => {
-    click.target.parentElement.parentElement.remove();
-    check_all_task_completed();
-  }, 3000);
-  let getrowID = parseInt(click.target.parentElement.parentElement.id);
-  taskArray[getrowID].isCompleted = true;
-  completed++;
-  addCompleted(click);
-  completedBox.innerText = completed;
-}
-
-function check_all_task_completed() {
-  /*when all tasks is completed, show task completed image
-  when all tasks is deleted but no task completed, show the No task yet image*/
-
-  if (document.querySelectorAll(".tick").length === 0 && completed > 0) {
-    no_task_image.setAttribute("src", "src/image/alltaskcompleted.PNG");
-    heading.style.display = "none";
-    no_task.style.display = "block";
-    notaskmessage.innerText =
-      "Congratulations! You have completed all your tasks";
-  } else if (
-    document.querySelectorAll(".tick").length === 0 &&
-    completed === 0
-  ) {
-    no_task_image.setAttribute("src", "src/image/no-task.PNG");
-    heading.style.display = "none";
-    no_task.style.display = "block";
-  }
-}
-var btn = document.getElementById("myBtn"); // button for modal
-
-// Modal close button hide modal
-span.onclick = function () {
-  // close button
-  modal.style.display = "none";
-};
-
-// Show modal and focus on input
-addtaskButton.onclick = function () {
-  modal.style.display = "block";
-  getTaskValue.focus();
-};
-
-// Get value of modal inputs
-let saveButton = document.getElementById("save");
-saveButton.addEventListener("click", addrow);
-let getTaskValue = document.getElementById("getTask");
-let getDescriptionValue = document.getElementById("getDescription");
-getTaskValue.addEventListener("keyup", check);
-getTaskValue.addEventListener("keypress", addrow);
-let no_task = document.getElementById("no-task");
 
 function addrow(e) {
   // Pressing enter or clicking save create new row and save to taskArray
@@ -160,6 +89,89 @@ let deleteTask = (click) => {
   check_all_task_completed();
 };
 
+function done(click) {
+  /* Function for ticking task ********************************************************
+  -icon change when tick
+  -text got striked 
+  */
+
+  click.target.disabled = true;
+
+  click.target.parentElement.parentElement.style.textDecoration =
+    "line-through";
+  setTimeout(() => {
+    click.target.setAttribute("class", "tickactive");
+  }, 100);
+  setTimeout(() => {
+    click.target.setAttribute("class", "tickactive2");
+  }, 500);
+  setTimeout(() => {
+    click.target.parentElement.parentElement.setAttribute("id", "rowgone");
+  }, 1000);
+  setTimeout(() => {
+    click.target.parentElement.parentElement.remove();
+    check_all_task_completed();
+  }, 1500);
+  let getrowID = parseInt(click.target.parentElement.parentElement.id);
+
+  taskArray.forEach((element) => {
+    if (element.rowID === getrowID) {
+      element.isCompleted = true;
+    }
+  });
+
+  completed++;
+  addCompleted(click);
+  completedBox.innerText = completed;
+}
+
+function check_all_task_completed() {
+  /*Function to check if all tasks is completed or deleted
+  -change to "all task completed" image when all tasks is ticked
+ -change to "src/image/no-task.PNG" image when no tasks is ticked but deleted
+  */
+
+  if (document.querySelectorAll(".tick").length === 0 && completed > 0) {
+    no_task_image.setAttribute("src", "src/image/alltaskcompleted.PNG");
+    heading.style.display = "none";
+    no_task.style.display = "block";
+    notaskmessage.innerText =
+      "Congratulations! You have completed all your tasks";
+  } else if (
+    document.querySelectorAll(".tick").length === 0 &&
+    completed === 0
+  ) {
+    no_task_image.setAttribute("src", "src/image/no-task.PNG");
+    heading.style.display = "none";
+    no_task.style.display = "block";
+  }
+}
+var btn = document.getElementById("myBtn"); // button for modal
+
+// *********************Section for modal button ****************************************
+// Get value of modal inputs
+let saveButton = document.getElementById("save");
+saveButton.addEventListener("click", addrow);
+let getTaskValue = document.getElementById("getTask");
+let getDescriptionValue = document.getElementById("getDescription");
+getTaskValue.addEventListener("keyup", check);
+getTaskValue.addEventListener("keypress", addrow);
+let no_task = document.getElementById("no-task");
+
+// Modal close button hide modal
+span.onclick = function () {
+  // close button
+  modal.style.display = "none";
+};
+
+// Show modal and focus on input
+addtaskButton.onclick = function () {
+  modal.style.display = "block";
+  getTaskValue.focus();
+};
+
+// *********************Section for modal button ****************************************
+
 function check() {
   //check if input is blank
   if (getTaskValue.value.length === 0) {
@@ -171,16 +183,39 @@ function check() {
     saveButton.disabled = false;
   }
 }
+let completedListSection = document.getElementById("completedListSection");
 function addCompleted(click) {
   let completedList = document.getElementById("Completed_list");
+  let newCompletedDiv = document.createElement("div");
+  let newCompletedRow = completedList.appendChild(newCompletedDiv);
   let newDiv = document.createElement("div");
-  completedList.appendChild(newDiv);
-
+  let newDesDiv = document.createElement("div");
+  newCompletedRow.append(newDiv, newDesDiv);
+  newCompletedRow.classList.add("flexcenter");
   let rowIndex = parseInt(click.target.parentElement.parentElement.id);
+
   let getTaskValue = taskArray[rowIndex].taskName;
+  let getTaskDesc = taskArray[rowIndex].description;
   let completedtaskText = document.createTextNode(getTaskValue);
-
+  let completedtaskDes = document.createTextNode(getTaskDesc);
   newDiv.appendChild(completedtaskText);
-
+  newDesDiv.appendChild(completedtaskDes);
   document.getElementById("completedSection").style.display = "block";
 }
+let dropDown = document.getElementById("dropDown");
+let isExpanded = false;
+let dropDownFunc = () => {
+  if (isExpanded === false) {
+    completedListSection.style.visibility = "visible";
+    completedListSection.style.opacity = "1";
+    dropDown.setAttribute("src", "src/image/up-arrow.PNG");
+    isExpanded = true;
+  } else if (isExpanded === true) {
+    completedListSection.style.visibility = "hidden";
+    completedListSection.style.opacity = "0";
+    dropDown.setAttribute("src", "src/image/down-arrow.PNG");
+    isExpanded = false;
+  }
+};
+
+dropDown.addEventListener("click", dropDownFunc);

@@ -65,7 +65,7 @@ h1 {
 }
 
 .tickactive {
-  background-image: url("src/image/check.PNG");
+  background-image: url("/src/image/check.PNG");
   width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -79,7 +79,7 @@ h1 {
 }
 
 .tickactive2 {
-  background-image: url("src/image/like.PNG");
+  background-image: url("/src/image/like.PNG");
   width: 25px;
   height: 25px;
   border: none;
@@ -171,10 +171,9 @@ input[type="text"]:focus {
 }
 
 #completedSection {
-  border-bottom: rgb(0, 0, 0, 0.2) solid;
   display: none;
-
   font-weight: bold;
+  font-size: 1rem;
 }
 
 #save:active {
@@ -213,7 +212,7 @@ p {
 }
 
 .deleteButton {
-  background-image: url("src/image/bin.PNG");
+  background-image: url("/src/image/bin.PNG");
   background-color: transparent;
   width: 20px;
   height: 20px;
@@ -230,4 +229,36 @@ p {
 
 #Completed_list {
   text-decoration: line-through;
+  display: flex;
+}
+
+#dropDown {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  padding-top: 2px;
+  cursor: pointer;
+}
+
+#completedBar {
+  font-size: 1rem;
+  border-bottom: rgb(0, 0, 0, 0.2) solid;
+  display: flex;
+}
+
+#completedListSection {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 1s linear;
+}
+#Completed_list {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.flexcenter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  transition-delay: 250ms;
+  transition-property: display;
 }

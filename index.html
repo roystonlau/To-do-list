@@ -28,11 +28,18 @@
         <button id="addtaskButton">Add task</button>
       </div>
       <div id="completedSection">
-        <div></div>
-        <div>Completed (<span id="completedTask"></span>)</div>
-        <div id="completedSectionHead">Task Name</div>
+        <div id="completedBar">
+          Completed (<span id="completedTask"></span>)
+          <img
+            id="dropDown"
+            src="/src/image/down-arrow.PNG"
+            alt="expand completed list"
+          />
+        </div>
+        <div id="completedListSection">
+          <div id="Completed_list"></div>
+        </div>
       </div>
-      <div id="Completed_list"></div>
     </div>
 
     <!-- The Modal -->
