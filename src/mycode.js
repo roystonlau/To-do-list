@@ -193,11 +193,17 @@ function addCompleted(click) {
   newCompletedRow.append(newDiv, newDesDiv);
   newCompletedRow.classList.add("flexcenter");
   let rowIndex = parseInt(click.target.parentElement.parentElement.id);
+  let ArrayTaskValue;
+  let ArrayTaskDesc;
+  taskArray.forEach((element) => {
+    if (element.rowID === rowIndex) {
+      ArrayTaskValue = element.taskName;
+      ArrayTaskDesc = element.description;
+    }
+  });
 
-  let getTaskValue = taskArray[rowIndex].taskName;
-  let getTaskDesc = taskArray[rowIndex].description;
-  let completedtaskText = document.createTextNode(getTaskValue);
-  let completedtaskDes = document.createTextNode(getTaskDesc);
+  let completedtaskText = document.createTextNode(ArrayTaskValue);
+  let completedtaskDes = document.createTextNode(ArrayTaskDesc);
   newDiv.appendChild(completedtaskText);
   newDesDiv.appendChild(completedtaskDes);
   document.getElementById("completedSection").style.display = "block";
